@@ -11,6 +11,8 @@
    ">
    
    <context:component-scan base-package="net.hv.ElectronicStore.controller" />
+   <context:component-scan base-package="net.hv.ElectronicBackend.daoimpl" />
+   
    <bean id = "viewResolver"
    		class = "org.springframework.web.servlet.view.InternalResourceViewResolver">
    		

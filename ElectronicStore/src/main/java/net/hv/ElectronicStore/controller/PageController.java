@@ -1,6 +1,11 @@
 package net.hv.ElectronicStore.controller;
 
+import net.hv.ElectronicBackend.dao.CategoryDAO;
+import net.hv.ElectronicBackend.dto.Category;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -11,15 +16,19 @@ packages*/
 @Controller
 public class PageController {
 
+	@Autowired
+	private CategoryDAO categoryDAO;
+	
 	@RequestMapping(value = {"/", "/home", "/index"})
 	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView("page");
 		mv.addObject("title", "Home");
+		mv.addObject("categories", categoryDAO.list());
 		mv.addObject("userClickHome", true);
 		return mv;
 	}
 	
-	/*@RequestMapping(value = {"/contact"})
+	@RequestMapping(value = {"/contact"})
 	public ModelAndView contact() {
 		ModelAndView mv = new ModelAndView("page");
 		mv.addObject("title", "Contact");
@@ -27,43 +36,32 @@ public class PageController {
 		return mv;
 	}
 	
-	@RequestMapping(value = {"/login"})
+	@RequestMapping(value = {"/about"})
 	public ModelAndView login() {
 		ModelAndView mv = new ModelAndView("page");
-		mv.addObject("title", "Login");
-		mv.addObject("userClickLogin", true);
+		mv.addObject("title", "About");
+		mv.addObject("userClickAbout", true);
 		return mv;
 	}
 	
-	@RequestMapping(value = {"/checkout"})
-	public ModelAndView checkout() {
+	@RequestMapping(value = {"/show/all/products"})
+	public ModelAndView showAllProducts() {
 		ModelAndView mv = new ModelAndView("page");
-		mv.addObject("title", "CheckOut");
-		mv.addObject("userClickCheckOut", true);
+		mv.addObject("title", "Home");
+		mv.addObject("categories", categoryDAO.list());
+		mv.addObject("userClickAllProducts", true);
 		return mv;
 	}
 	
-	@RequestMapping(value = {"/cart"})
-	public ModelAndView cart() {
+	@RequestMapping(value = {"/show/category/{id}/products"})
+	public ModelAndView showCategoryProducts(@PathVariable("id") int id) {
 		ModelAndView mv = new ModelAndView("page");
-		mv.addObject("title", "Cart");
-		mv.addObject("userClickCart", true);
+		Category category = null;
+		category = categoryDAO.get(id);
+		mv.addObject("title", category.getName());
+		mv.addObject("categories", categoryDAO.list());
+		mv.addObject("category", category);
+		mv.addObject("userClickCategoryProducts", true);
 		return mv;
 	}
-	
-	@RequestMapping(value = {"/lenevo"})
-	public ModelAndView lenevo() {
-		ModelAndView mv = new ModelAndView("page");
-		mv.addObject("title", "Lenevo");
-		mv.addObject("userClickLenevo", true);
-		return mv;
-	}
-	
-	@RequestMapping(value = {"/dell"})
-	public ModelAndView dell() {
-		ModelAndView mv = new ModelAndView("page");
-		mv.addObject("title", "Dell");
-		mv.addObject("userClickDell", true);
-		return mv;
-	}*/
 }
